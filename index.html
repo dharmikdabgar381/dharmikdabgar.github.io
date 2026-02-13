@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Be My Valentine 💖</title>
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(to bottom, #ffd6e8, #ffeaf4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Segoe UI", sans-serif;
+    overflow: hidden;
+}
+
+.card {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(255, 105, 180, 0.4);
+    max-width: 350px;
+    width: 90%;
+    position: relative;
+    z-index: 10;
+}
+
+.gif img {
+    width: 200px;
+    border-radius: 15px;
+}
+
+h1 {
+    color: #ff4d88;
+    font-size: 24px;
+    margin-top: 20px;
+}
+
+.emoji {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.buttons {
+    margin-top: 25px;
+}
+
+button {
+    background: #ff4d88;
+    border: none;
+    padding: 10px 20px;
+    margin: 10px;
+    font-size: 16px;
+    color: white;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #ff1f6a;
+}
+
+.no-btn {
+    background: #ccc;
+    color: #555;
+    position: fixed;
+}
+
+/* Fireworks */
+.firework {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    animation: explode 1s ease-out forwards;
+}
+
+@keyframes explode {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(30);
+        opacity: 0;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+    <div class="emoji">🧸🌹💖</div>
+
+    <div class="gif">
+        <img src="https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif" alt="Teddy with Love">
+    </div>
+
+    <h1 id="mainText">Will you be my Valentine? 💕</h1>
+
+    <div class="buttons">
+        <button onclick="yesClick()">Yes 💖</button>
+        <button class="no-btn" id="noBtn">No 🙈</button>
+    </div>
+</div>
+
+<script>
+const noBtn = document.getElementById("noBtn");
+const text = document.getElementById("mainText");
+
+/* Move No Button */
+noBtn.addEventListener("mouseover", moveNo);
+noBtn.addEventListener("click", moveNo);
+
+function moveNo() {
+    const btnWidth = noBtn.offsetWidth;
+    const btnHeight = noBtn.offsetHeight;
+
+    const maxX = window.innerWidth - btnWidth;
+    const maxY = window.innerHeight - btnHeight;
+
+    const randomX = Math.random() * maxX;
+    const randomY = Math.random() * maxY;
+
+    noBtn.style.left = randomX + "px";
+    noBtn.style.top = randomY + "px";
+}
+
+/* Yes Button */
+function yesClick() {
+
+    // Change Text
+    text.innerHTML = "I Love You So Much ❤️🥰";
+
+    // Cute Boy Voice
+    const speech = new SpeechSynthesisUtterance(
+        "I love you so much my rose. I love you so much my doremon. I love you so much my pengwin. You are very special to me."
+    );
+
+    speech.pitch = 1;
+    speech.rate = 0.9;
+    speech.volume = 1;
+
+    // Select male-like voice if available
+    const voices = speechSynthesis.getVoices();
+    voices.forEach(function(voice) {
+        if (
+            voice.name.toLowerCase().includes("david") ||
+            voice.name.toLowerCase().includes("alex") ||
+            voice.name.toLowerCase().includes("male")
+        ) {
+            speech.voice = voice;
+        }
+    });
+
+    speechSynthesis.speak(speech);
+
+    // Fireworks
+    for (let i = 0; i < 40; i++) {
+        const fire = document.createElement("div");
+        fire.classList.add("firework");
+
+        fire.style.background = `hsl(${Math.random()*360}, 100%, 50%)`;
+        fire.style.left = Math.random() * window.innerWidth + "px";
+        fire.style.top = Math.random() * window.innerHeight + "px";
+
+        document.body.appendChild(fire);
+
+        setTimeout(() => {
+            fire.remove();
+        }, 1000);
+    }
+}
+</script>
+
+</body>
+</html>
